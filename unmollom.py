@@ -35,6 +35,8 @@ class UnMollom:
     def extractSecId(self, source=None):
         if not source:
             source = self.session.get('http://lurinfacts.ch/contribute/').text
+        if 'Your submission has been rejected because it was treated as spam.' in source:
+            raise Exception('spam')
         soup = BeautifulSoup(source)
         self.secId =  soup('input', attrs={'id': 'Form_SubmitSloganForm_SecurityID'})[0]['value']
         
