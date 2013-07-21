@@ -10,7 +10,10 @@ from pydub import AudioSegment
 RECOGNITION_FAILS = {
     'x ray' : 'x-ray',
     'i5' : 'alpha',
-    'lulu' : 'zulu'
+    'lulu' : 'zulu',
+    'key bank' : 'quebec',
+    'dick' : 'quebec',
+    'hilo' : 'kilo'
 }
 
 class UnMollom:
