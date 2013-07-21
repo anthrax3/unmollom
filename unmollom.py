@@ -6,6 +6,13 @@ from bs4 import BeautifulSoup
 from tempfile import NamedTemporaryFile
 from pydub import AudioSegment
 
+# some words google gets constantly wrong
+RECOGNITION_FAILS = {
+    'x ray' : 'x-ray',
+    'i5' : 'alpha',
+    'lulu' : 'zulu'
+}
+
 class UnMollom:
 
     def __init__(self):
@@ -55,10 +62,22 @@ class UnMollom:
         (flac,samplerate) = self.toFlac(mp3file)
         recognition_result = self.recognize(flac,samplerate)
         if recognition_result['confidence'] > 0.5:
+            text = recognition_result['text'].lower()
+            
+            # some words are constantly recognized wrong
+            # let's correct theem
+            for k in RECOGNITION_FAILS:
+                text = text.replace(k, RECOGNITION_FAILS[k])
+
             # mollom wants the first character of each word
-            # "x ray" should be only one word
-            text = recognition_result['text']
-            return ''.join( [ x[0] for x in text.replace('x ray', 'x-ray').split(' ') ] ).lower()
+            captcha =  ''.join( [ x[0] for x in text.split(' ') ] ).lower()
+
+            # debug
+            f = file('testdata/%s_%s.flac' % (text.replace(' ','-'),captcha),'wb')
+            f.write(flac)
+            f.close()
+
+            return captcha
         else:
             raise Exception('Google is not sure enough')
 
@@ -92,7 +111,12 @@ class UnMollom:
     def go(self, slogan='Lurin owns this site'):
         mollomurl = self.extractMollomFile(self.req(slogan))
         captcha = self.getCaptcha(mollomurl)
-        return 'Really this is your contribution?' in  self.req(slogan=slogan, captcha=captcha)
+        success =  'Really this is your contribution?' in  self.req(slogan=slogan, captcha=captcha)
+        if success:
+            print('%s was correct' % captcha)
+        else:
+            print('%s was wrong' % captcha)
+        return success
 
 if __name__ == '__main__':
     num_of_tries = int(0)
