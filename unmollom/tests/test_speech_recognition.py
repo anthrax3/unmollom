@@ -56,3 +56,17 @@ class TestGoogleSpeechRecognition(unittest.TestCase):
 
     def test_conversion(self):
         pass
+
+    # rename to test_compare_... to run this too. 
+    # it's deactivated because its too slow
+    def test_compare_recognition_functions(self):
+        """
+        test the two recognition() functions 
+
+        these are tested by calling the google API twice and comparing the result
+        """
+        flac = open(self.input_flac,'rb').read()
+        result_file = speech_recognition.recognize_file(self.input_flac, 'flac')
+        result_data = speech_recognition.recognize(flac, 'flac')
+        self.assertEqual(result_file['text'], result_data['text'])
+        self.assertEqual(result_file['confidence'], result_data['confidence'])
