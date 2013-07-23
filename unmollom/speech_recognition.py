@@ -29,7 +29,7 @@ class GoogleSpeechRecognition(object):
             else:
                 raise RecognitionException("Voice recognition failed")
         else:
-            raise CommunicationException("Google does not like you!")
+            raise CommunicationException("Google does not like you!: " + result.text)
 
     def convert_to_flac(self, in_file_name, format):
         if format == 'flac':
@@ -47,7 +47,7 @@ class GoogleSpeechRecognition(object):
             result.ok   = True/False 
             result.text = server response text
         """
-        return  requests.post(url, data=flac, headers=headers)
+        return  requests.post(url, data=data, headers=headers)
 
 def recognize_file(fname, format='mp3'):
     return GoogleSpeechRecognition().recognize(fname, format)
