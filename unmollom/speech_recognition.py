@@ -32,6 +32,8 @@ class GoogleSpeechRecognition(object):
             raise CommunicationException("Google does not like you!")
 
     def convert_to_flac(self, in_file_name, format):
+        if format == 'flac':
+            return open(in_file_name,'rb').read()
         converted = NamedTemporaryFile('rb')
         mp3 = AudioSegment.from_mp3(in_file_name)
         mp3.export(converted.name, format='flac', parameters=['-ar', self.samplerate])
