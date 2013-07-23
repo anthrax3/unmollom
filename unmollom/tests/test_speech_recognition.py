@@ -8,6 +8,8 @@ from .. import speech_recognition
 from ..exceptions import RecognitionException, CommunicationException
 
 def server_response_stub(success_answer=True,response_text=''):
+    """ a stub for injecting our own server responses into 
+    the GoogleSpeechRecognition class. testing Googles api does not really make sense"""
     class ServerResponse(object):
         def __init__(self, a, t):
             self.ok = a
@@ -43,6 +45,11 @@ class TestGoogleSpeechRecognition(unittest.TestCase):
         cls = speech_recognition.GoogleSpeechRecognition()
         cls.send_request = self.no_server_response
         self.assertRaises(CommunicationException, cls.recognize, self.input_flac, 'flac')   
+
+    def test_recognize_wrong_file(self):
+        cls = speech_recognition.GoogleSpeechRecognition()
+        cls.send_request = self.no_server_response
+        self.assertRaises(IOError, cls.recognize, '/dev/nullwtf', 'flac')
 
     def test_send_request(self):
         pass
