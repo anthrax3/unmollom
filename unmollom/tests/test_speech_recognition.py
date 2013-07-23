@@ -59,9 +59,10 @@ class TestGoogleSpeechRecognition(unittest.TestCase):
 
     # rename to test_compare_... to run this too. 
     # it's deactivated because its too slow
-    def test_compare_recognition_functions(self):
+    #def test_compare_recognition_functions(self):
+    def compare_recognition_functions(self):
         """
-        test the two recognition() functions 
+        test the two recognize_*() functions 
 
         these are tested by calling the google API twice and comparing the result
         """
