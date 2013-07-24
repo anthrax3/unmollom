@@ -6,8 +6,8 @@ import unittest
 import os
 import json
 import uuid
-from .. import speech_recognition
-from ..exceptions import RecognitionException, CommunicationException, AudioFormatException
+from unmollom import speech_recognition
+from unmollom.exceptions import RecognitionException, CommunicationException, AudioFormatException
 
 def server_response_stub(success_answer=True,response_text=''):
     """ a stub for injecting our own server responses into 

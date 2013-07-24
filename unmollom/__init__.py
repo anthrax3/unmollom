@@ -13,6 +13,6 @@ __author__ = 'Flurin Rindisbacher'
 __license__ = 'BSD'
 __copyright__ = 'Copyright 2013 Flurin Rindisbacher'
 
-import speech_recognition
-import exceptions
+import unmollom.speech_recognition
+import unmollom.exceptions
 from .api import *
