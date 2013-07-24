@@ -4,6 +4,8 @@ __author__ = 'Flurin Rindisbacher'
 
 import unittest
 import os
+import json
+import uuid
 from .. import speech_recognition
 from ..exceptions import RecognitionException, CommunicationException
 
@@ -52,7 +54,15 @@ class TestGoogleSpeechRecognition(unittest.TestCase):
         self.assertRaises(IOError, cls.recognize, '/dev/nullwtf', 'flac')
 
     def test_send_request(self):
-        pass
+        cls = speech_recognition.GoogleSpeechRecognition()
+        randomdata = str(uuid.uuid4())
+        response =  cls.send_request('https://httpbin.org/post', randomdata, cls.headers)
+        self.assertEqual(response.ok, True)
+        resp_obj = json.loads(response.text)
+        self.assertEqual(resp_obj['data'], randomdata)
+        for h in cls.headers:
+            self.assertEqual(resp_obj['headers'][h], cls.headers[h])
+
 
     def test_conversion(self):
         pass
