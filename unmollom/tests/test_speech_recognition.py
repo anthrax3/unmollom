@@ -77,9 +77,12 @@ class TestGoogleSpeechRecognition(unittest.TestCase):
         for h in cls.headers:
             self.assertEqual(resp_obj['headers'][h], cls.headers[h])
 
-
-    def test_conversion(self):
-        pass
+    def test_conversion_no_conv_needed(self):
+        cls = speech_recognition.GoogleSpeechRecognition()
+        flac = open(self.input_flac, 'rb').read()
+        converted = cls.convert_to_flac(self.input_flac, 'flac')
+        self.assertEqual(flac, converted)
+   
 
     # rename to test_compare_... to run this too. 
     # it's deactivated because its too slow
