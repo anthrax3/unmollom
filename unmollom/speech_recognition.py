@@ -22,12 +22,17 @@ class GoogleSpeechRecognition(object):
         flac = self.convert_to_flac(in_file_name, format)
         result = self.send_request(self.url, flac, self.headers)
         if result.ok:
-            response = json.loads(result.text)
-            if response['status'] == 0 and len(response['hypotheses']) > 0:
-                hypo = response['hypotheses'][0]
-                return {'confidence' : hypo['confidence'], 'text' : hypo['utterance']}
-            else:
-                raise RecognitionException("Voice recognition failed")
+            try:
+                response = json.loads(result.text)
+                if response['status'] == 0 and len(response['hypotheses']) > 0:
+                    hypo = response['hypotheses'][0]
+                    return {'confidence' : hypo['confidence'], 'text' : hypo['utterance']}
+                else:
+                    raise RecognitionException("Voice recognition failed")
+            except ValueError:
+                raise RecognitionException("Speech Recognition Server did not return a json")
+            except KeyError: 
+                raise RecognitionException("Server returned the wrong json structure")
         else:
             raise CommunicationException("Google does not like you!: " + result.text)
 

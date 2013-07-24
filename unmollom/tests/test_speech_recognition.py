@@ -28,8 +28,12 @@ class TestGoogleSpeechRecognition(unittest.TestCase):
         self.no_server_response = server_response_stub(False)
         # server did response, but could not recognize the data
         self.no_recognition = server_response_stub(True, '{"status":0,"id":"7eea7cfb6a09168431e8d76b10842947-1","hypotheses":[]}\n')
+        # server responds with code=200 but not in json
+        self.no_valid_json = server_response_stub(True, 'wtf?')
+        # server responds with json but without our expected elements
+        self.valid_but_wrong_json = server_response_stub(True, '{"blubb":0,"id":"7eea7cfb6a09168431e8d76b10842947-1"}\n')
         # server successfully recognized "just an example"
-        self.recognition_success = server_response_stub(True, u'{"status":0,"id":"7eea7cfb6a09168431e8d76b10842947-1","hypotheses":[{"utterance":"just an example","confidence":0.9}]}\n')
+        self.recognition_success = server_response_stub(True, '{"status":0,"id":"7eea7cfb6a09168431e8d76b10842947-1","hypotheses":[{"utterance":"just an example","confidence":0.9}]}\n')        
         self.input_flac = os.path.dirname(os.path.realpath(__file__)) + '/files/1.flac'
 
     def test_recognize_success(self):
@@ -41,6 +45,16 @@ class TestGoogleSpeechRecognition(unittest.TestCase):
     def test_recognize_failure(self):
         cls = speech_recognition.GoogleSpeechRecognition()
         cls.send_request = self.no_recognition
+        self.assertRaises(RecognitionException, cls.recognize, self.input_flac, 'flac')
+
+    def test_recognize_invalid_json(self):
+        cls = speech_recognition.GoogleSpeechRecognition()
+        cls.send_request = self.no_valid_json
+        self.assertRaises(RecognitionException, cls.recognize, self.input_flac, 'flac')
+
+    def test_recognize_valid_but_wrong_json(self):
+        cls = speech_recognition.GoogleSpeechRecognition()
+        cls.send_request = self.valid_but_wrong_json
         self.assertRaises(RecognitionException, cls.recognize, self.input_flac, 'flac')
 
     def test_recognize_no_server_response(self):
