@@ -7,7 +7,7 @@ import os
 import json
 import uuid
 from .. import speech_recognition
-from ..exceptions import RecognitionException, CommunicationException
+from ..exceptions import RecognitionException, CommunicationException, AudioFormatException
 
 def server_response_stub(success_answer=True,response_text=''):
     """ a stub for injecting our own server responses into 
@@ -35,6 +35,7 @@ class TestGoogleSpeechRecognition(unittest.TestCase):
         # server successfully recognized "just an example"
         self.recognition_success = server_response_stub(True, '{"status":0,"id":"7eea7cfb6a09168431e8d76b10842947-1","hypotheses":[{"utterance":"just an example","confidence":0.9}]}\n')        
         self.input_flac = os.path.dirname(os.path.realpath(__file__)) + '/files/1.flac'
+        self.input_mp3 = self.input_flac.replace('.flac', '.mp3')
 
     def test_recognize_success(self):
         cls = speech_recognition.GoogleSpeechRecognition()
@@ -82,19 +83,35 @@ class TestGoogleSpeechRecognition(unittest.TestCase):
         flac = open(self.input_flac, 'rb').read()
         converted = cls.convert_to_flac(self.input_flac, 'flac')
         self.assertEqual(flac, converted)
-   
+
+    def test_conversion_codecs(self):
+        cls = speech_recognition.GoogleSpeechRecognition()
+        cls.convert_to_flac(self.input_mp3, 'mp3') # should not raise
+        cls.convert_to_flac(self.input_flac, 'flac') # should work toonot raise
+        # supported formats, but wrong datatype
+        self.assertRaises(AudioFormatException, cls.convert_to_flac, self.input_mp3, 'ogg')
+        self.assertRaises(AudioFormatException, cls.convert_to_flac, self.input_mp3, 'wav')
+        # unsupported format
+        self.assertRaises(AudioFormatException, cls.convert_to_flac, self.input_mp3, 'wtf')
+
+    def test_conversion_mp3(self):
+        cls = speech_recognition.GoogleSpeechRecognition()
+        converted = cls.convert_to_flac(self.input_mp3, 'mp3')
+        #this is cheated. we only check if the mp3 has been converted. 
+        #it would be better to really check, whether the result is really flac
+        self.assertNotEqual(converted, open(self.input_flac, 'rb').read())
 
     # rename to test_compare_... to run this too. 
     # it's deactivated because its too slow
     #def test_compare_recognition_functions(self):
-    def compare_recognition_functions(self):
+    def test_compare_recognition_functions(self):
         """
         test the two recognize_*() functions 
 
         these are tested by calling the google API twice and comparing the result
         """
         flac = open(self.input_flac,'rb').read()
-        result_file = speech_recognition.recognize_file(self.input_flac, 'flac')
+        result_file = speech_recognition.recognize_file(self.input_mp3, 'mp3')
         result_data = speech_recognition.recognize(flac, 'flac')
         self.assertEqual(result_file['text'], result_data['text'])
-        self.assertEqual(result_file['confidence'], result_data['confidence'])
+        #self.assertEqual(result_file['confidence'], result_data['confidence'])

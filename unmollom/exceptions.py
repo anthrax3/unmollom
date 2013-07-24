@@ -12,5 +12,8 @@ class UnMollomException(RuntimeError):
 class RecognitionException(UnMollomException):
     """Something in the recognition process went wrong"""
 
+class AudioFormatException(UnMollomException):
+    """This format cannot be converted to FLAC by your ffmpeg installation"""
+
 class CommunicationException(UnMollomException):
     """Could not communicate with server"""
