@@ -31,10 +31,8 @@ class GoogleSpeechRecognition(object):
                     return {'confidence' : hypo['confidence'], 'text' : hypo['utterance']}
                 else:
                     raise RecognitionException("Voice recognition failed")
-            except ValueError:
-                raise RecognitionException("Speech Recognition Server did not return a json")
-            except KeyError: 
-                raise RecognitionException("Server returned the wrong json structure")
+            except (ValueError, KeyError):
+                raise RecognitionException("Speech Recognition Server did return no or a wrong json format")
         else:
             raise CommunicationException("Google does not like you!: " + result.text)
 
