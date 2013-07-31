@@ -15,4 +15,4 @@ __copyright__ = 'Copyright 2013 Flurin Rindisbacher'
 
 import unmollom.speech_recognition
 import unmollom.exceptions
-from .api import *
+from .api import solve_url, solve
