@@ -17,3 +17,6 @@ class AudioFormatException(UnMollomException):
 
 class CommunicationException(UnMollomException):
     """Could not communicate with server"""
+
+class NoMollomTagsFoundException(UnMollomException):
+    """Is your target site really using mollom?"""
