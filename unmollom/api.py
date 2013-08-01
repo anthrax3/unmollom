@@ -3,7 +3,10 @@
 """
 unmollom.api
 
+implements the unmollom API
 
+:copyright: (c) 2013 by Flurin Rindisbacher.
+:license: BSD 2-Clause, see LICENSE for more details.
 """
 
 from unmollom.util import *

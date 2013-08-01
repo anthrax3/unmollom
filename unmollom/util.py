@@ -3,13 +3,14 @@
 """
 unmollom.util
 
-
+some helper funciton to solve the mollom captchas
 """
 
 from bs4 import BeautifulSoup
 from unmollom.exceptions import NoMollomTagsFoundException
 
-# some words google gets constantly wrong
+# some words the speech recognition constantly gets wrong
+# "x ray" for example should be one word
 RECOGNITION_FAILS = {
     'x ray' : 'x-ray',
     'i5' : 'alpha',

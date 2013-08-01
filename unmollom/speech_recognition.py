@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
 """
-unmollom.voice_recognition
+unmollom.speech_recognition
 
+a python wrapper for Google's speech recognition API. 
+this module can be used independently of the remaining unmollom code
 
+:copyright: (c) 2013 by Flurin Rindisbacher.
+:license: BSD 2-Clause, see LICENSE for more details.
 """
 
 import requests

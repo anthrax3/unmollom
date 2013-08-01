@@ -7,6 +7,8 @@ a demo script that shows the usage of unmollom
 have a look at LurinFactsContributor.contribute() 
 the rest of the code is specific to the demo site used in this example
 
+:copyright: (c) 2013 by Flurin Rindisbacher.
+:license: BSD 2-Clause, see LICENSE for more details.
 """
 from bs4 import BeautifulSoup
 import requests
