@@ -7,6 +7,9 @@ a demo script that shows the usage of unmollom
 have a look at LurinFactsContributor.contribute() 
 the rest of the code is specific to the demo site used in this example
 
+go ahead and run this script. the website owners won't bother you.
+they like new facts ;-)
+
 :copyright: (c) 2013 by Flurin Rindisbacher.
 :license: BSD 2-Clause, see LICENSE for more details.
 """
