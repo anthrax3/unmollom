@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-unmollom a mollom captcha solver
+a mollom captcha solver
 
 unmollom is a python module that solves mollom captchas using Google's speech recognition.
 use it in your "requests" based python code.
