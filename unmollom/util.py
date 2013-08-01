@@ -20,7 +20,7 @@ RECOGNITION_FAILS = {
 }
 
 def improve_speech_recognition(speech):
-    speech = str(speech)
+    speech = str(speech).lower()
     for k in RECOGNITION_FAILS:
         speech = speech.replace(k, RECOGNITION_FAILS[k])
     return speech
@@ -38,5 +38,5 @@ def build_captcha(speech):
         return ''
     speech = improve_speech_recognition(speech)
     # mollom wants the first character of each word
-    captcha =  ''.join( [ x[0] for x in speech.split(' ') ] ).lower()
+    captcha =  ''.join( [ x[0] for x in speech.split(' ') ] )
     return captcha
