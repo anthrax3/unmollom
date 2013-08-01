@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'Flurin Rindisbacher'
-
 import unittest
 import os
 from unmollom import util
