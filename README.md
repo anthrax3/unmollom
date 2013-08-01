@@ -19,4 +19,5 @@ see examples/lurinfacts.py or the module documentation
 License
 -------
 BSD 2-Clause, see the LICENSE file
+
 Copyright 2013 Flurin Rindisbacher
