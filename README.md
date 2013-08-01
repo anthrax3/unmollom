@@ -2,7 +2,7 @@ unmollom
 ========
 
 unmollom is a python module for solving mollom captchas. It uses Google Chrome's speech recognition API to recognize the spoken captcha words.
-In my tests it was able to solve about 75% of all captchas. 
+In my tests it was able to solve about 80% of all captchas. 
 
 Requirements:
  - ffmpeg
