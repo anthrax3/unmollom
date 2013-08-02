@@ -28,9 +28,12 @@ def improve_speech_recognition(speech):
 
 def extract_mollom_audio_file(source):
     soup = BeautifulSoup(source)
-    mollom_span = soup.find('span', attrs={'class' : 'mollom-audio-captcha'})
-    if mollom_span:
-        return mollom_span.find('object')['data']
+    mollom_mp3_span = soup.find('span', attrs={'class' : 'mollom-audio-captcha'})
+    mollom_img_span = soup.find('span', attrs={'class' : 'mollom-image-captcha'})
+    if mollom_mp3_span:
+        return mollom_mp3_span.find('object')['data']
+    elif mollom_img_span:
+        return mollom_img_span.find('img')['src'].replace('.png','.mp3')
     else:
         raise NoMollomTagsFoundException("No Mollom found")
 
