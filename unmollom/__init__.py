@@ -18,7 +18,7 @@ USAGE:
     >>> import requests
     >>> import unmollom
     >>> session = requests.Session()
-    >>> html = session.get('http://SOME_URL')
+    >>> html = session.get('http://SOME_URL').text
     >>> captcha = unmollom.solve(session, html)
     >>> # ... 
 
