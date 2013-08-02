@@ -20,15 +20,16 @@ class Example(object):
 
     def __init__(self):
         self.session = requests.Session()
+        self.target_url = 'http://code.flurischt.ch/dev/unmollom/'
 
     def solve_and_submit(self):
-        captcha = unmollom.solve_url(self.session, 'http://code.flurischt.ch/dev/unmollom/')
+        captcha = unmollom.solve_url(self.session, self.target_url)
         result = self._submit(captcha)
         # server returns SOLVED or FAILED after every post
         return 'SOLVED' in result
 
     def _submit(self, captcha):
-        res = self.session.post('http://code.flurischt.ch/dev/unmollom/', data={'captcha' : captcha,}, allow_redirects=True)
+        res = self.session.post(self.target_url, data={'captcha' : captcha,}, allow_redirects=True)
         return res.text
 
 
