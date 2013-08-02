@@ -3,7 +3,7 @@
 """
 unmollom.util
 
-some helper funciton to solve the mollom captchas
+some helper functions to solve the mollom captchas
 """
 
 import re
