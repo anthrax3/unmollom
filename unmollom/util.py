@@ -6,6 +6,7 @@ unmollom.util
 some helper funciton to solve the mollom captchas
 """
 
+import re
 from bs4 import BeautifulSoup
 from unmollom.exceptions import NoMollomTagsFoundException
 
@@ -28,14 +29,13 @@ def improve_speech_recognition(speech):
 
 def extract_mollom_audio_file(source):
     soup = BeautifulSoup(source)
-    mollom_mp3_span = soup.find('span', attrs={'class' : 'mollom-audio-captcha'})
-    mollom_img_span = soup.find('span', attrs={'class' : 'mollom-image-captcha'})
-    if mollom_mp3_span:
-        return mollom_mp3_span.find('object')['data']
-    elif mollom_img_span:
-        return mollom_img_span.find('img')['src'].replace('.png','.mp3')
-    else:
-        raise NoMollomTagsFoundException("No Mollom found")
+    # lets check every image and search for the mollom url
+    # they're something like http://ip/v1/captcha/SOMEHASH.png
+    for img in soup.findAll('img'):
+        matches = re.match('https?://[^/]+/v[0-9]+/captcha/[^.]+\.png', img['src'])
+        if matches:
+            return img['src'].replace('.png', '.mp3')
+    raise NoMollomTagsFoundException("No Mollom found")
 
 def build_captcha(speech):
     if not speech:
