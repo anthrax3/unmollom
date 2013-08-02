@@ -22,8 +22,7 @@ class Example(object):
         self.session = requests.Session()
 
     def solve_and_submit(self):
-        html = self.session.get('http://code.flurischt.ch/dev/unmollom/').text
-        captcha = unmollom.solve(self.session, html)
+        captcha = unmollom.solve_url(self.session, 'http://code.flurischt.ch/dev/unmollom/')
         result = self._submit(captcha)
         # server returns SOLVED or FAILED after every post
         return 'SOLVED' in result
