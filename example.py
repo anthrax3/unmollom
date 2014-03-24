@@ -12,7 +12,6 @@ unusual bad results check manually whether the test captcha is working currently
 :copyright: (c) 2013 by Flurin Rindisbacher.
 :license: BSD 2-Clause, see LICENSE for more details.
 """
-from bs4 import BeautifulSoup
 import requests
 import unmollom
 
