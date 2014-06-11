@@ -14,7 +14,7 @@ This code has been posted for information and educational purposes. I do not con
 
 Usage
 -----
-see examples/lurinfacts.py or the module documentation
+see example.py or the module documentation
 
 License
 -------
